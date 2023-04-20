@@ -1,4 +1,3 @@
-use std::sync::Arc;
 use cgmath::{ElementWise, InnerSpace, MetricSpace, Vector2, VectorSpace, Zero};
 use crate::camera::*;
 use crate::material::{Material, PhysicalMaterial};

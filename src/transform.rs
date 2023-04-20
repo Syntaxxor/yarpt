@@ -1,4 +1,3 @@
-use std::ops::Add;
 use cgmath::{Point3, Vector3, Basis3, Euler, Deg, Rotation, ElementWise, InnerSpace, EuclideanSpace};
 
 pub type Point = Point3<f64>;

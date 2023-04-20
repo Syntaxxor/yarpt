@@ -2,7 +2,6 @@ use std::f64::consts::TAU;
 use crate::transform::*;
 use cgmath::{InnerSpace, Rotation, Vector2};
 use rand::prelude::*;
-use rand_distr::StandardNormal;
 
 #[derive(Debug, Copy, Clone)]
 pub struct Camera {

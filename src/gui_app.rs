@@ -1,6 +1,5 @@
 use std::cell::RefCell;
 use std::rc::Rc;
-use std::sync::Arc;
 use std::sync::mpsc::{channel};
 use cgmath::Deg;
 use crate::path_tracer::*;
@@ -9,15 +8,12 @@ use fltk::{app, prelude::*, window::Window};
 use fltk::button::{Button, CheckButton};
 use fltk::dialog::file_chooser;
 use fltk::draw::{draw_image, draw_rect_fill};
-use fltk::enums::{Color, ColorDepth, LabelType};
+use fltk::enums::{Color, ColorDepth};
 use fltk::frame::Frame;
-use fltk::group::{Flex, FlexType, Pack, PackType, Scroll, ScrollType};
-//use fltk::image::{PngImage, SharedImage};
+use fltk::group::{Pack, PackType, Scroll, ScrollType};
 use fltk::input::IntInput;
 use fltk::surface::ImageSurface;
-use fltk::text::TextDisplay;
 use image::ColorType;
-use rand::Rng;
 use crate::camera::Camera;
 use crate::material::PhysicalMaterial;
 use crate::renderable::Renderable;
@@ -94,7 +90,7 @@ pub fn run (){
     wind.resize_callback({
         let mut scroll = scroll.clone();
         let mut input_pack = input_pack.clone();
-        move|_, x, y, w, h| {
+        move|_, _, _, w, h| {
             scroll.set_size(w, h);
             input_pack.resize(64, 0, w - 64, h);
         }

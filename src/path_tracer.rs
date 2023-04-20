@@ -1,11 +1,11 @@
 use std::ops::DivAssign;
 use crate::scene::*;
-use crate::renderable::*;
 
 use threadpool::ThreadPool;
 
 use std::sync::mpsc::{channel};
 use std::sync::Arc;
+use std::time::{Instant};
 use cgmath::ElementWise;
 use fltk::app::{Sender};
 use rand::{Rng, thread_rng};
@@ -48,6 +48,7 @@ impl PathTracer {
     }
     
     pub fn render(&mut self, sender: Sender<RenderMessages>) {
+        let render_start = Instant::now();
         self.image.resize(self.render_settings.width * self.render_settings.height, [0.0; 3]);
         
         let pool = ThreadPool::new(self.num_threads);
@@ -125,9 +126,12 @@ impl PathTracer {
                     sender.send(RenderMessages::FinishRender(
                         self.render_settings.width, 
                         self.render_settings.height, 
-                        Some(self.image.clone())
+                        None
                     ));
                 }
+                let render_end = Instant::now();
+                let render_time = render_end - render_start;
+                println!("Finished render in {} seconds.", render_time.as_secs_f64());
                 break;
             }
         }
