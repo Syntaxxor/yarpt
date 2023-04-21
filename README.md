@@ -6,6 +6,7 @@ This is a path tracing program I wrote in Rust. I've written quite a few before,
 Features:
 - Basic primitive rendering.
 - Transforms to allow full translation, rotation, and scale.
+- Human-readable scene representation and loading.
 - Light transport via path tracing for robust shadows, reflections, and global illumination.
 - Depth of Field.
 - Multithreading.
@@ -14,7 +15,6 @@ Features:
 To-do:
 - Acceleration structures.
 - Triangle meshes.
-- Scene saving/loading (likely using an external program such as Blender).
 
 ## Building
 - Edit `.cargo/config.toml` to point to a local installation of OpenImageDenoise.
