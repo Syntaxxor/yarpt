@@ -10,10 +10,10 @@ pub trait Material {
 
 #[derive(Debug, Copy, Clone)]
 pub struct PhysicalMaterial {
-    diffuse: Vector,
-    roughness: f64,
-    metallic: f64,
-    emissive: f64,
+    pub diffuse: Vector,
+    pub roughness: f64,
+    pub metallic: f64,
+    pub emissive: f64,
 }
 
 impl PhysicalMaterial {
@@ -54,6 +54,17 @@ impl Material for PhysicalMaterial {
         }else {
             *ray_dir = reflect_dir;
             (Vector::new(1.0, 1.0, 1.0), self.diffuse * self.emissive)
+        }
+    }
+}
+
+impl Default for PhysicalMaterial {
+    fn default() -> Self {
+        Self {
+            diffuse: Vector::new(1.0, 1.0, 1.0),
+            roughness: 1.0,
+            metallic: 0.0,
+            emissive: 0.0,
         }
     }
 }

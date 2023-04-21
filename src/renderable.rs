@@ -2,10 +2,11 @@ use cgmath::{ElementWise, EuclideanSpace, InnerSpace};
 use crate::material::{PhysicalMaterial};
 use crate::transform::*;
 
+#[derive(Copy, Clone)]
 pub struct Renderable {
-    transform: Transform,
-    material: PhysicalMaterial,
-    shape: RenderShape,
+    pub transform: Transform,
+    pub material: PhysicalMaterial,
+    pub shape: RenderShape,
 }
 
 impl Renderable {
@@ -50,7 +51,9 @@ impl Renderable {
     }
 }
 
+#[derive(Copy, Clone)]
 pub enum RenderShape {
+    None,
     Sphere(f64),
     Box(Vector),
 }
@@ -58,6 +61,7 @@ pub enum RenderShape {
 impl RenderShape {
     pub fn trace(&self, ray_orig: Point, ray_dir: Vector) -> Option<(Point, Vector)> {
         match self {
+            RenderShape::None => None,
             RenderShape::Sphere(radius) => RenderShape::trace_sphere(*radius, ray_orig, ray_dir),
             RenderShape::Box(bounds) => RenderShape::trace_box(*bounds, ray_orig, ray_dir),
         }

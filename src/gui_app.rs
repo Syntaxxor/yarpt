@@ -18,6 +18,7 @@ use crate::camera::Camera;
 use crate::material::PhysicalMaterial;
 use crate::renderable::Renderable;
 use crate::scene::{Scene, Sky};
+use crate::scene_loader;
 use crate::transform::*;
 
 pub fn run (){
@@ -123,96 +124,11 @@ pub fn run (){
             render_button.deactivate();
             save_button.deactivate();
             
-            let mut test_cam = Camera::default();
-            test_cam.transform.position.y = 1.0;
-            test_cam.transform.position.z = -4.0;
-            test_cam.f_stop = 0.05;
-            test_cam.focal_plane = 4.2;
-            
             let mut sky = Sky::default();
             sky.set_sun_dir(Vector::new(1.0, 2.0, 1.5));
             
-            let mut scene = Scene::new(test_cam, sky);
-            
-            scene.add_object(Renderable::new_sphere(
-                Transform::new(
-                    Point::new(2.0, 1.0, 0.0),
-                    Rot::new(Deg(0.0), Deg(0.0), Deg(0.0)),
-                    Vector::new(1.0, 1.0, 1.0)
-                ),
-                PhysicalMaterial::new(Vector::new(1.0, 0.1, 0.1), 0.2, 0.0, 0.0), 
-                1.0
-            ));
-
-            scene.add_object(Renderable::new_sphere(
-                Transform::new(
-                    Point::new(-2.0, 2.0, 0.0),
-                    Rot::new(Deg(0.0), Deg(0.0), Deg(0.0)),
-                    Vector::new(1.0, 2.0, 1.0)
-                ),
-                PhysicalMaterial::new(Vector::new(0.1, 0.1, 1.0), 0.0, 1.0, 0.0),
-                1.0
-            ));
-            
-            // scene.add_object(Renderable::new_sphere(
-            //     Transform::new(
-            //         Point::new(-10.0, 8.0, 10.0),
-            //         Rot::new(Deg(0.0), Deg(0.0), Deg(0.0)),
-            //         Vector::new(1.0, 1.0, 1.0)
-            //     ),
-            //     PhysicalMaterial::new(Vector::new(1.0, 1.0, 1.0), 1.0, 0.0, 1.0),
-            //     8.0
-            // ));
-
-            scene.add_object(Renderable::new_sphere(
-                Transform::new(
-                    Point::new(-2.0, 0.2, -2.0),
-                    Rot::new(Deg(0.0), Deg(0.0), Deg(0.0)),
-                    Vector::new(1.0, 1.0, 1.0)
-                ),
-                PhysicalMaterial::new(Vector::new(1.0, 1.0, 1.0), 1.0, 0.0, 0.0),
-                0.2
-            ));
-
-            scene.add_object(Renderable::new_sphere(
-                Transform::new(
-                    Point::new(1.5, 4.4, 3.0),
-                    Rot::new(Deg(0.0), Deg(0.0), Deg(0.0)),
-                    Vector::new(1.0, 1.0, 1.0)
-                ),
-                PhysicalMaterial::new(Vector::new(1.0, 1.0, 1.0), 1.0, 0.0, 0.0),
-                0.4
-            ));
-
-            scene.add_object(Renderable::new_box(
-                Transform::new(
-                    Point::new(0.0, 2.0, 4.0),
-                    Rot::new(Deg(0.0), Deg(0.0), Deg(0.0)),
-                    Vector::new(1.0, 1.0, 1.0)
-                ),
-                PhysicalMaterial::new(Vector::new(0.9, 0.9, 0.9), 0.0, 1.0, 0.0),
-                Vector::new(4.0, 2.0, 1.0),
-            ));
-
-            scene.add_object(Renderable::new_box(
-                Transform::new(
-                    Point::new(0.0, 1.0, 2.0),
-                    Rot::new(Deg(45.0), Deg(45.0), Deg(45.0)),
-                    Vector::new(1.0, 1.0, 1.0)
-                ),
-                PhysicalMaterial::new(Vector::new(1.0, 1.0, 1.0), 1.0, 0.0, 0.0),
-                Vector::new(1.0, 1.0, 1.0),
-            ));
-            
-            scene.add_object(Renderable::new_box(
-                Transform::new(
-                    Point::new(0.0, -1.0, 0.0),
-                    Rot::new(Deg(0.0), Deg(0.0), Deg(0.0)),
-                    Vector::new(1.0, 1.0, 1.0)
-                ),
-                PhysicalMaterial::new(Vector::new(0.1, 1.0, 0.1), 1.0, 0.0, 0.0),
-                Vector::new(128.0, 1.0, 128.0),
-            ));
+            let mut scene = scene_loader::load("test_scene.ypt").unwrap();
+            scene.sky = sky;
             
             let render_settings = RenderSettings{
                 width,

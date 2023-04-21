@@ -1,0 +1,135 @@
+camera{
+transform: position -8.241000 7.275000 8.234000 rotation -31.406000 -42.866001 0.000000 scale 1.000000 1.000000 1.000000
+focal_length: 1.000000
+focal_plane: 1.000000
+f_stop: 0.000000
+}
+materials{
+red_mat: diffuse 1.000000 0.000000 0.000000 roughness 1.000000 metallic 0.000000 emissive 0.000000
+green_mat: diffuse 0.125490 0.796078 0.24 roughness 0.500000 metallic 0.000000 emissive 0.000000
+box_mat: diffuse 1.000000 1.000000 1.000000 roughness 0.700000 metallic 0.000000 emissive 0.000000
+light_mat: diffuse 1.000000 1.000000 1.000000 roughness 1.000000 metallic 0.000000 emissive 1.000000
+shiny_mat: diffuse 0.796078 0.796078 0.796078 roughness 0.010000 metallic 1.000000 emissive 0.000000
+}
+scene{
+sphere(
+	material: red_mat
+	transform: position -4.000000 1.000000 1.000000 rotation -0.000000 0.000000 0.000000 scale 1.000000 1.000000 1.000000
+	radius: 1.000000
+	)
+sphere(
+	material: green_mat
+	transform: position -1.000000 1.500000 -3.500000 rotation -0.000000 0.000000 0.000000 scale 1.000000 1.000000 1.000000
+	radius: 1.500000
+	)
+box(
+	material: box_mat
+	transform: position 0.000000 -1.000000 0.000000 rotation -0.000000 0.000000 0.000000 scale 1.000000 1.000000 1.000000
+	bounds: 10.000000 1.000000 10.000000
+	)
+box(
+	material: box_mat
+	transform: position 0.000000 9.000000 0.000000 rotation -0.000000 0.000000 0.000000 scale 1.000000 1.000000 1.000000
+	bounds: 10.000000 1.000000 10.000000
+	)
+box(
+	material: box_mat
+	transform: position 0.000000 4.000000 10.000000 rotation -0.000000 0.000000 0.000000 scale 1.000000 1.000000 1.000000
+	bounds: 10.000000 4.000000 1.000000
+	)
+box(
+	material: box_mat
+	transform: position 0.000000 4.000000 -10.000000 rotation -0.000000 0.000000 0.000000 scale 1.000000 1.000000 1.000000
+	bounds: 10.000000 4.000000 1.000000
+	)
+box(
+	material: box_mat
+	transform: position 10.000000 1.000000 0.000000 rotation -0.000000 0.000000 0.000000 scale 1.000000 1.000000 1.000000
+	bounds: 1.000000 1.000000 9.000000
+	)
+box(
+	material: box_mat
+	transform: position 10.000000 7.000000 0.000000 rotation -0.000000 0.000000 0.000000 scale 1.000000 1.000000 1.000000
+	bounds: 1.000000 1.000000 9.000000
+	)
+box(
+	material: box_mat
+	transform: position 10.000000 4.000000 0.000000 rotation -0.000000 0.000000 0.000000 scale 1.000000 1.000000 1.000000
+	bounds: 1.000000 2.000000 2.000000
+	)
+box(
+	material: light_mat
+	transform: position 10.000000 4.000000 4.500000 rotation -0.000000 0.000000 0.000000 scale 1.000000 1.000000 1.000000
+	bounds: 0.200000 2.000000 2.500000
+	)
+box(
+	material: light_mat
+	transform: position 10.000000 4.000000 -4.500000 rotation -0.000000 0.000000 0.000000 scale 1.000000 1.000000 1.000000
+	bounds: 0.200000 2.000000 2.500000
+	)
+box(
+	material: box_mat
+	transform: position 10.000000 4.000000 8.000000 rotation -0.000000 0.000000 0.000000 scale 1.000000 1.000000 1.000000
+	bounds: 1.000000 2.000000 1.000000
+	)
+box(
+	material: box_mat
+	transform: position 10.000000 4.000000 -8.000000 rotation -0.000000 0.000000 0.000000 scale 1.000000 1.000000 1.000000
+	bounds: 1.000000 2.000000 1.000000
+	)
+box(
+	material: box_mat
+	transform: position -10.000000 1.000000 0.000000 rotation -0.000000 0.000000 0.000000 scale 1.000000 1.000000 1.000000
+	bounds: 1.000000 1.000000 9.000000
+	)
+box(
+	material: box_mat
+	transform: position -10.000000 7.000000 0.000000 rotation -0.000000 0.000000 0.000000 scale 1.000000 1.000000 1.000000
+	bounds: 1.000000 1.000000 9.000000
+	)
+box(
+	material: box_mat
+	transform: position -10.000000 4.000000 0.000000 rotation -0.000000 0.000000 0.000000 scale 1.000000 1.000000 1.000000
+	bounds: 1.000000 2.000000 2.000000
+	)
+box(
+	material: light_mat
+	transform: position -10.000000 4.000000 4.500000 rotation -0.000000 0.000000 0.000000 scale 1.000000 1.000000 1.000000
+	bounds: 0.200000 2.000000 2.500000
+	)
+box(
+	material: light_mat
+	transform: position -10.000000 4.000000 -4.500000 rotation -0.000000 0.000000 0.000000 scale 1.000000 1.000000 1.000000
+	bounds: 0.200000 2.000000 2.500000
+	)
+box(
+	material: box_mat
+	transform: position -10.000000 4.000000 8.000000 rotation -0.000000 0.000000 0.000000 scale 1.000000 1.000000 1.000000
+	bounds: 1.000000 2.000000 1.000000
+	)
+box(
+	material: box_mat
+	transform: position -10.000000 4.000000 -8.000000 rotation -0.000000 0.000000 0.000000 scale 1.000000 1.000000 1.000000
+	bounds: 1.000000 2.000000 1.000000
+	)
+box(
+	material: shiny_mat
+	transform: position 2.000000 1.000000 2.500000 rotation -0.000000 0.000000 0.000000 scale 1.000000 1.000000 1.000000
+	bounds: 1.000000 1.000000 1.000000
+	)
+box(
+	material: shiny_mat
+	transform: position 4.560660 1.000000 1.060660 rotation -0.000000 -45.000000 0.000000 scale 1.000000 1.000000 1.000000
+	bounds: 1.000000 1.000000 1.000000
+	)
+box(
+	material: shiny_mat
+	transform: position 2.006330 1.000000 -0.103553 rotation -0.000000 30.000015 0.000000 scale 1.000000 1.000000 1.000000
+	bounds: 1.000000 1.000000 1.000000
+	)
+box(
+	material: shiny_mat
+	transform: position 3.189340 3.000000 0.945485 rotation -0.000000 14.999995 0.000000 scale 1.000000 1.000000 1.000000
+	bounds: 1.000000 1.000000 1.000000
+	)
+}

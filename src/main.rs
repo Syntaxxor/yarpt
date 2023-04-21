@@ -3,6 +3,7 @@ mod camera;
 mod renderable;
 mod material;
 mod scene;
+mod scene_loader;
 mod path_tracer;
 mod gui_app;
 

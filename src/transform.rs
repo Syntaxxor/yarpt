@@ -1,4 +1,4 @@
-use cgmath::{Point3, Vector3, Basis3, Euler, Deg, Rotation, ElementWise, InnerSpace, EuclideanSpace};
+use cgmath::{Point3, Vector3, Basis3, Euler, Deg, Rotation, ElementWise, InnerSpace, EuclideanSpace, Rotation3};
 
 pub type Point = Point3<f64>;
 pub type Vector = Vector3<f64>;
@@ -22,7 +22,9 @@ impl Transform {
     }
     
     pub fn get_basis(&self) -> Basis {
-        Basis3::from(self.rotation)
+        Basis3::from_angle_y(self.rotation.y) * 
+            Basis3::from_angle_x(self.rotation.x) *
+            Basis3::from_angle_z(self.rotation.z)
     }
     
     pub fn to_local_point(&self, point: Point) -> Point {
