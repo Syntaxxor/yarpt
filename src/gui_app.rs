@@ -1,7 +1,6 @@
 use std::cell::RefCell;
 use std::rc::Rc;
 use std::sync::mpsc::{channel};
-use cgmath::Deg;
 use crate::path_tracer::*;
 
 use fltk::{app, prelude::*, window::Window};
@@ -11,13 +10,10 @@ use fltk::draw::{draw_image, draw_rect_fill};
 use fltk::enums::{Color, ColorDepth};
 use fltk::frame::Frame;
 use fltk::group::{Pack, PackType, Scroll, ScrollType};
-use fltk::input::IntInput;
+use fltk::input::{Input, IntInput};
 use fltk::surface::ImageSurface;
 use image::ColorType;
-use crate::camera::Camera;
-use crate::material::PhysicalMaterial;
-use crate::renderable::Renderable;
-use crate::scene::{Scene, Sky};
+use crate::scene::{Sky};
 use crate::scene_loader;
 use crate::transform::*;
 
@@ -35,6 +31,11 @@ pub fn run (){
     let mut input_pack = Pack::default().size_of_parent();
     input_pack.set_type(PackType::Vertical);
     input_pack.set_clip_children(false);
+    
+    let mut scene_path_input = Input::default()
+        .with_size(100, 30)
+        .with_label("Scene");
+    scene_path_input.set_value("test_scene.ypt");
     
     let mut w_input = IntInput::default()
         .with_size(100, 30)
@@ -104,6 +105,7 @@ pub fn run (){
     render_button.set_callback({
         let mut render_result = render_result.clone();
         let mut save_button = save_button.clone();
+        let scene_path_input = scene_path_input.clone();
         let w_input = w_input.clone();
         let h_input = h_input.clone();
         let sample_input = sample_input.clone();
@@ -112,6 +114,7 @@ pub fn run (){
         let threads_input = threads_input.clone();
         let denoise_checkbox = denoise_checkbox.clone();
         move |render_button| {
+            let scene_path = scene_path_input.value();
             let width = w_input.value().parse().unwrap();
             let height = h_input.value().parse().unwrap();
             let samples = sample_input.value().parse().unwrap();
@@ -127,8 +130,10 @@ pub fn run (){
             let mut sky = Sky::default();
             sky.set_sun_dir(Vector::new(1.0, 2.0, 1.5));
             
-            let mut scene = scene_loader::load("test_scene.ypt").unwrap();
-            scene.sky = sky;
+            let mut scene = scene_loader::load(scene_path).unwrap();
+            
+            println!("{}", scene.get_object_count());
+            //scene.sky = sky;
             
             let render_settings = RenderSettings{
                 width,

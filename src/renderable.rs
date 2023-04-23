@@ -2,7 +2,7 @@ use cgmath::{ElementWise, EuclideanSpace, InnerSpace};
 use crate::material::{PhysicalMaterial};
 use crate::transform::*;
 
-#[derive(Copy, Clone)]
+#[derive(Debug, Copy, Clone)]
 pub struct Renderable {
     pub transform: Transform,
     pub material: PhysicalMaterial,
@@ -46,12 +46,32 @@ impl Renderable {
         }
     }
     
+    pub fn get_aabb(&self) -> (Point, Vector) {
+        let mut min = Point::new(f64::MAX, f64::MAX, f64::MAX);
+        let mut max = Point::new(f64::MIN, f64::MIN, f64::MIN);
+        
+        let points = self.shape.get_box_points();
+        
+        for p in points {
+            let p = self.transform.to_global_point(p);
+            min.x = min.x.min(p.x);
+            min.y = min.y.min(p.y);
+            min.z = min.z.min(p.z);
+            
+            max.x = max.x.max(p.x);
+            max.y = max.y.max(p.y);
+            max.z = max.z.max(p.z);
+        }
+
+        (max.add_element_wise(min) / 2.0, max.sub_element_wise(min).to_vec() / 2.0)
+    }
+    
     pub fn get_material(&self) -> &PhysicalMaterial {
         &self.material
     }
 }
 
-#[derive(Copy, Clone)]
+#[derive(Debug, Copy, Clone)]
 pub enum RenderShape {
     None,
     Sphere(f64),
@@ -64,6 +84,14 @@ impl RenderShape {
             RenderShape::None => None,
             RenderShape::Sphere(radius) => RenderShape::trace_sphere(*radius, ray_orig, ray_dir),
             RenderShape::Box(bounds) => RenderShape::trace_box(*bounds, ray_orig, ray_dir),
+        }
+    }
+    
+    fn get_box_points(&self) -> [Point; 8] {
+        match self {
+            RenderShape::None => [Point::new(0.0, 0.0, 0.0); 8],
+            RenderShape::Sphere(radius) => RenderShape::sphere_points(*radius),
+            RenderShape::Box(size) => RenderShape::box_points(*size),
         }
     }
     
@@ -89,6 +117,9 @@ impl RenderShape {
     fn trace_box(bounds: Vector, ray_orig: Point, ray_dir: Vector) -> Option<(Point, Vector)> {
         let b_min = Point::from_vec(-bounds);
         let b_max = Point::from_vec(bounds);
+        if ray_orig.x > b_min.x && ray_orig.y > b_min.y && ray_orig.z > b_min.z && ray_orig.x < b_max.x && ray_orig.y < b_max.y && ray_orig.z < b_max.z {
+            return None;
+        }
         let inv_dir = 1.0 / ray_dir;
         
         let t0 = (b_min - ray_orig).mul_element_wise(inv_dir);
@@ -123,5 +154,33 @@ impl RenderShape {
         };
         
         Some((hit_position, normal))
+    }
+    
+    fn sphere_points(radius: f64) -> [Point; 8] {
+        //let radius = radius / 2.0;
+        [
+            Point::new(-radius, -radius, -radius),
+            Point::new(radius, -radius, -radius),
+            Point::new(-radius, radius, -radius),
+            Point::new(radius, radius, -radius),
+            Point::new(-radius, -radius, radius),
+            Point::new(radius, -radius, radius),
+            Point::new(-radius, radius, radius),
+            Point::new(radius, radius, radius),
+        ]
+    }
+    
+    fn box_points(size: Vector) -> [Point; 8] {
+        //let size = size / 2.0;
+        [
+            Point::new(-size.x, -size.y, -size.z),
+            Point::new(size.x, -size.y, -size.z),
+            Point::new(-size.x, size.y, -size.z),
+            Point::new(size.x, size.y, -size.z),
+            Point::new(-size.x, -size.y, size.z),
+            Point::new(size.x, -size.y, size.z),
+            Point::new(-size.x, size.y, size.z),
+            Point::new(size.x, size.y, size.z),
+        ]
     }
 }

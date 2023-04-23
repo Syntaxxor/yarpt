@@ -9,6 +9,7 @@ use std::time::{Instant};
 use cgmath::ElementWise;
 use fltk::app::{Sender};
 use rand::{Rng, thread_rng};
+use crate::acceleration_structure::AccelerationStructure;
 use crate::transform::Vector;
 
 pub type Pixel = [f64; 3];
@@ -55,15 +56,20 @@ impl PathTracer {
         
         let render_settings = self.render_settings;
         
+        let mut acceleration_structure = AccelerationStructure::new(self.scene.clone());
+        acceleration_structure.generate();
+        
+        let acceleration_structure = Arc::new(acceleration_structure);
+        
         let mut created = 0;
         let (tx, rx) = channel();
         for x in (0..render_settings.width).step_by(render_settings.tile_size) {
             for y in (0..render_settings.height).step_by(render_settings.tile_size) {
                 let tx = tx.clone();
-                let scene = self.scene.clone();
+                let acceleration_structure = acceleration_structure.clone();
                 created += 1;
                 pool.execute(move || {
-                    tx.send(render_region(scene, x, y, render_settings)).expect("Render job failed.")
+                    tx.send(render_region(acceleration_structure, x, y, render_settings)).expect("Render job failed.")
                 });
             }
         }
@@ -144,7 +150,7 @@ impl PathTracer {
     }
 }
 
-fn render_region(scene: Arc<Scene>, x: usize, y: usize, render_settings: RenderSettings) -> (usize, usize, Vec<Pixel>) {
+fn render_region(acceleration_structure: Arc<AccelerationStructure>, x: usize, y: usize, render_settings: RenderSettings) -> (usize, usize, Vec<Pixel>) {
     let mut result = Vec::new();
     result.resize(render_settings.tile_size * render_settings.tile_size, [0.0; 3]);
 
@@ -161,7 +167,7 @@ fn render_region(scene: Arc<Scene>, x: usize, y: usize, render_settings: RenderS
                 let x_coord = (((x as f64 + rng.gen::<f64>()) / render_settings.width as f64) * 2.0 - 1.0) * aspect;
                 let y_coord = (1.0 - (y as f64 + rng.gen::<f64>()) / render_settings.height as f64) * 2.0 - 1.0;
                 
-                let lighting = scene.trace_pixel(x_coord, y_coord, render_settings.bounces);
+                let lighting = acceleration_structure.trace_pixel(x_coord, y_coord, render_settings.bounces);
                 col.add_assign_element_wise(lighting);
             }
             col.div_assign(render_settings.samples as f64);

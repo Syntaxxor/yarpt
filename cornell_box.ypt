@@ -1,0 +1,62 @@
+camera{
+transform: position 0.0 0.0 -30.0 rotation 0.0 0.0 0.0 scale 1.0 1.0 1.0
+focal_length: 2.0
+focal_plane: 1.0
+f_stop: 0.0
+}
+materials{
+red_mat: diffuse 1.0 0.01 0.01 roughness 0.3 metallic 1.0 emissive 0.0
+green_mat: diffuse 0.01 1.0 0.01 roughness 0.3 metallic 1.0 emissive 0.0
+box_mat: diffuse 1.0 1.0 1.0 roughness 0.7 metallic 0.0 emissive 0.0
+light_mat: diffuse 1.0 1.0 1.0 roughness 1.0 metallic 0.0 emissive 8.0
+metal_mat: diffuse 0.8 0.8 0.8 roughness 0.01 metallic 1.0 emissive 0.0
+dielectric_mat: diffuse 0.5 0.5 0.9 roughness 0.01 metallic 0.0 emissive 0.0
+}
+scene{
+# Floor
+box(
+material: box_mat
+transform: position 0.0 -8.0 0.0 rotation 0.0 0.0 0.0 scale 1.0 1.0 1.0
+bounds: 8.0 1.0 8.0
+)
+# Ceiling
+box(
+material: box_mat
+transform: position 0.0 8.0 0.0 rotation 0.0 0.0 0.0 scale 1.0 1.0 1.0
+bounds: 8.0 1.0 8.0
+)
+# Back wall
+box(
+material: box_mat
+transform: position 0.0 0.0 9.0 rotation 0.0 0.0 0.0 scale 1.0 1.0 1.0
+bounds: 8.0 9.0 1.0
+)
+# Right wall
+box(
+material: red_mat
+transform: position 9.0 0.0 0.0 rotation 0.0 0.0 0.0 scale 1.0 1.0 1.0
+bounds: 1.0 9.0 8.0
+)
+# Left wall
+box(
+material: green_mat
+transform: position -9.0 0.0 0.0 rotation 0.0 0.0 0.0 scale 1.0 1.0 1.0
+bounds: 1.0 9.0 8.0
+)
+# Light
+box(
+material: light_mat
+transform: position 0.0 7.0 0.0 rotation 0.0 0.0 0.0 scale 1.0 1.0 1.0
+bounds: 2.0 0.1 2.0
+)
+sphere(
+material: metal_mat
+transform: position -4.0 -4.0 -1.0 rotation 0.0 0.0 0.0 scale 1.0 1.0 1.0
+radius: 3.0
+)
+sphere(
+material: dielectric_mat
+transform: position 3.0 -5.0 1.0 rotation 0.0 0.0 0.0 scale 1.0 1.0 1.0
+radius: 2.0
+)
+}

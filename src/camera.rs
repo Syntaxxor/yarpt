@@ -25,7 +25,7 @@ impl Camera {
         
         let mut ray_orig = self.transform.position;
         
-        let mut ray_dir = basis.rotate_vector(Vector::new(coord.x, coord.y, -self.focal_length).normalize());
+        let mut ray_dir = basis.rotate_vector(Vector::new(coord.x, coord.y, self.focal_length).normalize());
         
         let target_point = ray_orig + ray_dir * self.focal_plane;
         

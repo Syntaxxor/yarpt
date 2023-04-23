@@ -37,18 +37,17 @@ impl Material for PhysicalMaterial {
             rng_iter.next().unwrap(),
             rng_iter.next().unwrap(),
             rng_iter.next().unwrap(),
-        ).add_element_wise(normal).normalize();
+        ).normalize().add_element_wise(normal).normalize();
         
-        let mut reflect_dir = *ray_dir - 2.0 * normal * (ray_dir.dot(normal));
+        let mut reflect_dir = (*ray_dir - 2.0 * normal * (ray_dir.dot(normal))).normalize();
         
-        reflect_dir = reflect_dir.lerp(diffuse_direction, self.roughness);
+        reflect_dir = reflect_dir.lerp(diffuse_direction, self.roughness).normalize();
         
-        diffuse_direction = diffuse_direction.lerp(reflect_dir, self.metallic);
-        
-        let is_diffuse_ray = rng.sample(Bernoulli::new((self.metallic * 0.5).lerp(1.0, self.roughness)).unwrap());
+        let is_diffuse_ray = rng.sample(Bernoulli::new((self.roughness * 0.5 + 0.5).lerp(1.0, self.metallic)).unwrap());
 
         *ray_orig = hit_point;
         if is_diffuse_ray {
+            diffuse_direction = diffuse_direction.lerp(reflect_dir, self.metallic).normalize();
             *ray_dir = diffuse_direction;
             (self.diffuse, self.diffuse * self.emissive)
         }else {

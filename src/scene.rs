@@ -4,6 +4,7 @@ use crate::material::{Material, PhysicalMaterial};
 use crate::renderable::Renderable;
 use crate::transform::*;
 
+#[derive(Debug)]
 pub struct Scene {
     pub camera: Camera,
     pub sky: Sky,
@@ -23,6 +24,10 @@ impl Scene {
         self.objects.push(object);
     }
     
+    pub fn get_object_count(&self) -> usize {
+        self.objects.len()
+    }
+    
     pub fn trace_pixel(&self, x_coord: f64, y_coord: f64, num_bounces: usize) -> Vector {
         let (mut ray_orig, mut ray_dir) = self.camera.get_ray(Vector2::new(x_coord, y_coord));
         
@@ -35,6 +40,9 @@ impl Scene {
                 let (hit_diffuse, hit_emissive) = material.hit_surface(&mut ray_orig, &mut ray_dir, hit_point, normal);
                 diffuse.mul_assign_element_wise(hit_diffuse);
                 lighting.add_assign_element_wise(hit_emissive.mul_element_wise(diffuse));
+                if material.emissive >= 1.0 {
+                    break;
+                }
             } else {
                 lighting.add_assign_element_wise(self.sky.get_sky_color(ray_dir).mul_element_wise(diffuse));
                 break;
@@ -42,6 +50,10 @@ impl Scene {
         }
         
         return lighting;
+    }
+    
+    pub fn get_object(&self, ind: usize) -> &Renderable {
+        &self.objects[ind]
     }
     
     fn trace_scene(&self, ray_orig: Point, ray_dir: Vector) -> Option<(Point, Vector, &PhysicalMaterial)> {
@@ -62,7 +74,7 @@ impl Scene {
     }
 }
 
-
+#[derive(Debug, Copy, Clone)]
 pub struct Sky {
     sun_dir: Vector,
     pub sun_size: f64,

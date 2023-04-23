@@ -2,10 +2,9 @@ use std::collections::{HashMap, VecDeque};
 use std::fs::File;
 use std::io::{BufRead, BufReader};
 use std::path::Path;
-use std::str::{Split, SplitWhitespace};
 use cgmath::Deg;
 use crate::camera::Camera;
-use crate::material::{Material, PhysicalMaterial};
+use crate::material::{PhysicalMaterial};
 use crate::renderable::{Renderable, RenderShape};
 use crate::scene::{Scene, Sky};
 use crate::transform::{Point, Rot, Transform, Vector};
@@ -22,7 +21,7 @@ pub fn load<P: AsRef<Path>>(path: P) -> Option<Scene> {
     if let Ok(file) = file {
         let mut scene = Scene::new(
              Camera::default(),
-             Sky::default(),
+             Sky::black(),
         );
         let mut reader = BufReader::new(file);
         
@@ -35,7 +34,13 @@ pub fn load<P: AsRef<Path>>(path: P) -> Option<Scene> {
         let mut line = "".to_string();
         while reader.read_line(&mut line).unwrap() != 0 {
             line = line.trim().to_string();
-            println!("{}", line);
+            //println!("{line}");
+            
+            if line.starts_with('#') {
+                line.clear();
+                continue;
+            }
+            
             if line.contains("}") {
                 load_state = LoadState::Main;
             }
@@ -160,7 +165,6 @@ fn parse_transform(trans_data: &str) -> Transform {
 }
 
 fn get_float(float_iter: &mut VecDeque<&str>) -> f64 {
-    println!("{:?}", float_iter);
     float_iter.pop_front().unwrap().parse::<f64>().unwrap()
 }
 
