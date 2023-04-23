@@ -1,0 +1,62 @@
+# A recreation of the first test scene I used.
+sky{
+sun_dir: 0.37139067 0.74278134 0.55708599
+sun_size: 0.01
+sun_color: 8.0 8.0 8.0
+ground_color: 0.5 0.5 0.5
+horizon_color: 1.0 1.0 1.0
+zenith_color: 0.8 0.8 1.0
+}
+camera{
+transform: position 0.0 1.0 -4.0 rotation 0.0 0.0 0.0 scale 1.0 1.0 1.0
+focal_length: 1.0
+focal_plane: 4.2
+f_stop: 0.05
+}
+materials{
+white_mat: diffuse 1.0 1.0 1.0 roughness 1.0 metallic 0.0 emissive 0.0
+red_mat: diffuse 1.0 0.1 0.1 roughness 0.2 metallic 0.0 emissive 0.0
+blue_mat: diffuse 0.1 0.1 1.0 roughness 0.0 metallic 1.0 emissive 0.0
+ground_mat: diffuse 0.1 1.0 0.1 roughness 1.0 metallic 0.0 emissive 0.0
+mirror_mat: diffuse 0.9 0.9 0.9 roughness 0.0 metallic 1.0 emissive 0.0
+}
+scene{
+sphere(
+material: red_mat
+transform: position 2.0 1.0 0.0 rotation 0.0 0.0 0.0 scale 1.0 1.0 1.0
+radius: 1.0
+)
+sphere(
+material: blue_mat
+transform: position -2.0 2.0 0.0 rotation 0.0 0.0 0.0 scale 1.0 2.0 1.0
+radius: 1.0
+)
+sphere(
+material: white_mat
+transform: position -2.0 0.2 -2.0 rotation 0.0 0.0 0.0 scale 1.0 1.0 1.0
+radius: 0.2
+)
+sphere(
+material: white_mat
+transform: position 1.5 4.4 3.0 rotation 0.0 0.0 0.0 scale 1.0 1.0 1.0
+radius: 0.4
+)
+# Mirror
+box(
+material: mirror_mat
+transform: position 0.0 2.0 4.0 rotation 0.0 0.0 0.0 scale 1.0 1.0 1.0
+bounds: 4.0 2.0 1.0
+)
+# Rotated
+box(
+material: white_mat
+transform: position 0.0 1.0 2.0 rotation 45.0 45.0 45.0 scale 1.0 1.0 1.0
+bounds: 1.0 1.0 1.0
+)
+# Ground
+box(
+material: ground_mat
+transform: position 0.0 -1.0 0.0 rotation 0.0 0.0 0.0 scale 1.0 1.0 1.0
+bounds: 128.0 1.0 128.0
+)
+}

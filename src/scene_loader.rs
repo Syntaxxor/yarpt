@@ -12,6 +12,7 @@ use crate::transform::{Point, Rot, Transform, Vector};
 enum LoadState{
     Main,
     Camera,
+    Sky,
     Materials,
     Scene,
 }
@@ -49,6 +50,9 @@ pub fn load<P: AsRef<Path>>(path: P) -> Option<Scene> {
                     if line.starts_with("camera") {
                         load_state = LoadState::Camera;
                     }
+                    if line.starts_with("sky") {
+                        load_state = LoadState::Sky;
+                    }
                     if line.starts_with("materials") {
                         load_state = LoadState::Materials;
                     }
@@ -70,6 +74,29 @@ pub fn load<P: AsRef<Path>>(path: P) -> Option<Scene> {
                         }
                         if name == "f_stop" {
                             scene.camera.f_stop = cam_data.trim().parse().unwrap();
+                        }
+                    }
+                }
+                LoadState::Sky => {
+                    let split_line = line.split_once(':');
+                    if let Some((name, sky_data)) = split_line {
+                        if name == "sun_dir" {
+                            scene.sky.set_sun_dir(parse_vec(sky_data.trim()));
+                        }
+                        if name == "sun_size" {
+                            scene.sky.sun_size = sky_data.trim().parse().unwrap();
+                        }
+                        if name == "sun_color" {
+                            scene.sky.sun_color = parse_vec(sky_data.trim());
+                        }
+                        if name == "ground_color" {
+                            scene.sky.ground_color = parse_vec(sky_data.trim());
+                        }
+                        if name == "horizon_color" {
+                            scene.sky.horizon_color = parse_vec(sky_data.trim());
+                        }
+                        if name == "zenith_color" {
+                            scene.sky.zenith_color = parse_vec(sky_data.trim());
                         }
                     }
                 }
@@ -102,8 +129,7 @@ pub fn load<P: AsRef<Path>>(path: P) -> Option<Scene> {
                                     }
                                     RenderShape::Box(bounds) => {
                                         if name == "bounds" {
-                                            let mut bounds_vec = obj_data.trim().split_whitespace().collect::<VecDeque::<_>>();
-                                            *bounds = get_vec(&mut bounds_vec);
+                                            *bounds = parse_vec(obj_data.trim());
                                         }
                                     }
                                 }
@@ -162,6 +188,11 @@ fn parse_transform(trans_data: &str) -> Transform {
     }
     
     transform
+}
+
+fn parse_vec(vec_data: &str) -> Vector {
+    let mut vec_data = vec_data.trim().split_whitespace().collect::<VecDeque<_>>();
+    get_vec(&mut vec_data)
 }
 
 fn get_float(float_iter: &mut VecDeque<&str>) -> f64 {
