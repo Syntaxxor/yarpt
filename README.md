@@ -25,3 +25,7 @@ To-do:
 
 ## Example Images
 ![rotated_cube_denoised](https://user-images.githubusercontent.com/25652538/232280373-174c7968-61c6-420c-992a-e164d573f50f.png)
+
+![room_test](https://user-images.githubusercontent.com/25652538/233825017-2bf12ad8-769c-4dd5-adcf-7ac0cb37e6cc.png)
+
+![cornell_box](https://user-images.githubusercontent.com/25652538/233825020-56cb4504-9943-48df-83d0-075175c7faa1.png)
