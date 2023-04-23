@@ -11,9 +11,9 @@ Features:
 - Depth of Field.
 - Multithreading.
 - Denoising via OpenImageDenoise.
+- BVH Acceleration structures.
 
 To-do:
-- Acceleration structures.
 - Triangle meshes.
 
 ## Building
