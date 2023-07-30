@@ -1,0 +1,84 @@
+camera{
+transform: position 0.0 1.0 0.0 rotation 0.0 0.0 0.0 scale 1.0 1.0 1.0
+focal_length: 1.0
+focal_plane: 6.0
+f_stop: 0.05
+}
+materials{
+white_mat: diffuse 1.0 1.0 1.0 roughness 1.0 metallic 0.0 emissive 0.0
+light_mat: diffuse 1.0 1.0 1.0 roughness 1.0 metallic 0.0 emissive 4.0
+
+sphere_0_0: diffuse 1.0 0.1 0.1 roughness 0.0 metallic 1.0 emissive 0.0
+sphere_1_0: diffuse 0.1 1.0 0.1 roughness 0.0 metallic 1.0 emissive 0.0
+sphere_2_0: diffuse 0.1 0.1 1.0 roughness 0.0 metallic 1.0 emissive 0.0
+
+sphere_0_1: diffuse 1.0 0.1 0.1 roughness 0.5 metallic 1.0 emissive 0.0
+sphere_1_1: diffuse 0.1 1.0 0.1 roughness 0.5 metallic 1.0 emissive 0.0
+sphere_2_1: diffuse 0.1 0.1 1.0 roughness 0.5 metallic 1.0 emissive 0.0
+
+sphere_0_2: diffuse 1.0 0.1 0.1 roughness 1.0 metallic 1.0 emissive 0.0
+sphere_1_2: diffuse 0.1 1.0 0.1 roughness 1.0 metallic 1.0 emissive 0.0
+sphere_2_2: diffuse 0.1 0.1 1.0 roughness 1.0 metallic 1.0 emissive 0.0
+}
+scene{
+# Floor
+box(
+material: white_mat
+transform: position 0.0 -2.0 0.0 rotation 0.0 0.0 0.0 scale 1.0 1.0 1.0
+bounds: 128.0 1.0 128.0
+)
+# Light
+sphere(
+material: light_mat
+transform: position 0.0 20.0 5.0 rotation 0.0 0.0 0.0 scale 1.0 1.0 1.0
+radius: 10.0
+)
+
+sphere(
+material: sphere_0_0
+transform: position -2.0 0.0 5.0 rotation 0.0 0.0 0.0 scale 1.0 1.0 1.0
+radius: 1.0
+)
+sphere(
+material: sphere_1_0
+transform: position 0.0 0.0 5.0 rotation 0.0 0.0 0.0 scale 1.0 1.0 1.0
+radius: 1.0
+)
+sphere(
+material: sphere_2_0
+transform: position 2.0 0.0 5.0 rotation 0.0 0.0 0.0 scale 1.0 1.0 1.0
+radius: 1.0
+)
+
+sphere(
+material: sphere_0_1
+transform: position -2.0 2.0 5.0 rotation 0.0 0.0 0.0 scale 1.0 1.0 1.0
+radius: 1.0
+)
+sphere(
+material: sphere_1_1
+transform: position 0.0 2.0 5.0 rotation 0.0 0.0 0.0 scale 1.0 1.0 1.0
+radius: 1.0
+)
+sphere(
+material: sphere_2_1
+transform: position 2.0 2.0 5.0 rotation 0.0 0.0 0.0 scale 1.0 1.0 1.0
+radius: 1.0
+)
+
+sphere(
+material: sphere_0_2
+transform: position -2.0 4.0 5.0 rotation 0.0 0.0 0.0 scale 1.0 1.0 1.0
+radius: 1.0
+)
+sphere(
+material: sphere_1_2
+transform: position 0.0 4.0 5.0 rotation 0.0 0.0 0.0 scale 1.0 1.0 1.0
+radius: 1.0
+)
+sphere(
+material: sphere_2_2
+transform: position 2.0 4.0 5.0 rotation 0.0 0.0 0.0 scale 1.0 1.0 1.0
+radius: 1.0
+)
+}

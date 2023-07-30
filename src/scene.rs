@@ -113,7 +113,7 @@ impl Sky {
     
     pub fn get_sky_color(&self, ray_dir: Vector) -> Vector {
         if ray_dir.dot(self.sun_dir) > (1.0 - self.sun_size) {
-            return self.sun_color;
+            return self.sun_color / self.sun_size;
         }
         let sky_gradient_t = smoothstep(0.0, 0.4, ray_dir.y).powf(0.35);
         let sky_gradient = self.horizon_color.lerp(self.zenith_color, sky_gradient_t);
